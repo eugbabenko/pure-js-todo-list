@@ -1,6 +1,7 @@
 const express = require("express")
 const uuidv4 = require("uuid")
 const morgan = require('morgan')
+const cors = require('cors')
 
 let todos = []
 const PORT = 3001
@@ -10,6 +11,7 @@ const app = express()
 app.use(morgan('combined'))
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
+app.use(cors())
 
 app.get("/todos", (req, res) => {
     res.json(todos)
@@ -64,6 +66,7 @@ app.put("/todos/:id", (req, res) => {
 })
 
 app.post("/todos", (req, res) => {
+    console.log("req.body", req.body)
     if(!req.body.title) {
         res.status(400);
         res.json({

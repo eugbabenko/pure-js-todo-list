@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="img/title.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Конференц холл</title>
+</head>
+<body>
+    <div>
+        <p>List:</p>
+        <ul id="todo-list">
+            Loading..
+        </ul>
+        <hr>
+        <br>
+
+        <label for="title">Title (4 to 8 characters):</label>
+
+        <input type="text" id="title" name="title" required minlength="4" maxlength="200">
+        <button id="add-btn">Add new todo</button>
+    </div>
+
+    <script>
+        const getTodoList = () => {
+            return fetch("http://localhost:3001/todos")
+            .then((r) => r.json());
+        }
+
+        const addTodoList = (title) => {
+            return fetch("http://localhost:3001/todos", {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({title})
+            })
+            .then((r) => r.json());
+        }
+
+        const displayTodoList = (todos = []) => {
+            const todoListContainerElement = document.getElementById("todo-list");
+            todoListContainerElement.innerHTML = '';
+
+            if(todos.length === 0) {
+                todoListContainerElement.innerHTML = 'Empty list.';
+                return;
+            }
+
+            todos.forEach(todo => {
+                const todoHtmlItem = document.createElement('li');
+                todoHtmlItem.appendChild(document.createTextNode(todo.title));
+                todoListContainerElement.appendChild(todoHtmlItem);
+            })
+        }
+
+        const fetchAndDisplayList = () => {
+            getTodoList()
+                .then(todos => displayTodoList(todos))
+        }
+
+        const subscribeAddBtn = () => {
+            const addBtnElement = document.getElementById("add-btn");
+            addBtnElement.addEventListener('click', () => {
+                const titleInputHtmlElement = document.getElementById("title");
+                const newTodoTitle = titleInputHtmlElement.value;
+                addTodoList(newTodoTitle)
+                    .then(()=>{
+                        titleInputHtmlElement.value = '';
+                    })
+                    .then(fetchAndDisplayList)
+            })
+        }
+
+        subscribeAddBtn()
+        setTimeout(()=> fetchAndDisplayList(), 2000)
+    </script>
+</body>
+</html>
