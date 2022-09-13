@@ -9,7 +9,6 @@ const inputElement = document.querySelector("#input");
 const msgElement = document.querySelector("#msg");
 const postsElement = document.querySelector("#posts");
 
-let posts = [];
 
 formElement.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -39,9 +38,9 @@ const acceptData = () => {
   }).then(() => loadPosts());
 };
 
-const displayPosts = (posts) => {
+const displayPosts = (todos = []) => {
   postsElement.innerHTML = "";
-  posts.map((x) => {
+  todos.map((x) => {
     return (postsElement.innerHTML += `
     <li id=${x.id} class="action">
       <p class="${x.isCompleted === true ? "task-title--done" : ""}">${
@@ -57,15 +56,15 @@ const displayPosts = (posts) => {
 
 let deletePost = (e) => {
   const id = e.parentElement.parentElement.id;
-  posts = posts.filter((el) => id !== el.id);
-  deleteData(id);
+  getDeleteData(id);
 };
 
 let setDonePost = (e) => {
   const id = e.parentElement.parentElement.id;
-  const post = posts.find((el) => el.id === id);
-  post.isCompleted = !post.isCompleted;
-  changeData(id, post);
+  const checked = e.parentElement.previousElementSibling.classList.contains('task-title--done');
+  console.log(checked);
+  getChangeData(id, {title, isCompleted:!checked})
+  
 };
 
 const sendHttpRequest = (url, method = "GET", body) => {
@@ -83,13 +82,13 @@ const loadPosts = () => {
   );
 };
 
-const deleteData = (id) => {
+const getDeleteData = (id) => {
   sendHttpRequest(`http://localhost:3001/todos/${id}`, "DELETE").then(() =>
-    displayPosts(posts)
+    loadPosts()
   );
 };
 
-const changeData = (id, post) => {
+const getChangeData = (id, post) => {
   fetch(`http://localhost:3001/todos/${id}`, {
     method: "PUT",
     headers: {
@@ -97,7 +96,7 @@ const changeData = (id, post) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(post),
-  }).then(() => displayPosts(posts));
+  }).then(() => loadPosts());
 };
 
 loadPosts();
