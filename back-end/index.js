@@ -42,14 +42,6 @@ app.put("/todos/:id", (req, res) => {
         return;
     }
 
-    if(!req.body.title) {
-        res.status(400);
-        res.json({
-            error: "Title should be provided"
-        });
-        return;
-    }
-
     if(!('isCompleted' in req.body)) {
         res.status(400);
         res.json({
@@ -58,7 +50,7 @@ app.put("/todos/:id", (req, res) => {
         return;
     }
 
-    const updatedTodo = {...todo, title: req.body.title, isCompleted: req.body.isCompleted};
+    const updatedTodo = {...todo, isCompleted: req.body.isCompleted};
 
     todos = [...todos.filter(t => t.id !== req.params.id), updatedTodo]
 
