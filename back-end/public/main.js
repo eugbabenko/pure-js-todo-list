@@ -17,20 +17,15 @@ const formValidation = () => {
     msgElement.innerHTML = "Post cannot be blank";
   } else {
     msgElement.innerHTML = "";
-    acceptData();
+    sendPostToServer();
   }
 };
 
-const acceptData = () => {
-  return fetch("http://localhost:3001/todos", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ title: inputElement.value }),
-  }).then(() => loadPosts());
+const sendPostToServer = () => {
+  sendHttpRequest("http://localhost:3001/todos/", "POST", JSON.stringify({ title: inputElement.value })).then(
+    () => loadPosts());
 };
+
 
 const displayPosts = (todos = []) => {
   postsElement.innerHTML = "";
@@ -50,18 +45,24 @@ const displayPosts = (todos = []) => {
 
 let deletePost = (e) => {
   const id = e.parentElement.parentElement.id;
-  getDeleteData(id);
+  makeDeletePostRequest(id);
 };
 
 let setDonePost = (e) => {
   const id = e.parentElement.parentElement.id;
   const checked = e.parentElement.previousElementSibling.classList.contains('task-title--done');
-  getChangeData(id, {isCompleted:!checked})
+  makeChangePostRequest(id, {isCompleted:!checked})
   
 };
 
 const sendHttpRequest = (url, method = "GET", body) => {
-  return fetch(url, { method, body }).then((response) => {
+  return fetch(url, { 
+    method,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body}).then((response) => {
     return response.json();
   });
 };
@@ -75,21 +76,16 @@ const loadPosts = () => {
   );
 };
 
-const getDeleteData = (id) => {
+const makeDeletePostRequest = (id) => {
   sendHttpRequest(`http://localhost:3001/todos/${id}`, "DELETE").then(() =>
     loadPosts()
   );
 };
 
-const getChangeData = (id, post) => {
-  fetch(`http://localhost:3001/todos/${id}`, {
-    method: "PUT",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(post),
-  }).then(() => loadPosts());
+const makeChangePostRequest = (id, post) => {
+  sendHttpRequest(`http://localhost:3001/todos/${id}`, "PUT", JSON.stringify(post)).then(() =>
+    loadPosts()
+  );
 };
 
 loadPosts();
