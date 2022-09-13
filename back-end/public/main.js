@@ -1,9 +1,3 @@
-const getTodoList = () => {
-  return fetch("http://localhost:3001/todos").then((r) => r.json());
-};
-
-//________________________________________________________
-
 const formElement = document.querySelector("#form");
 const inputElement = document.querySelector("#input");
 const msgElement = document.querySelector("#msg");
@@ -62,8 +56,7 @@ let deletePost = (e) => {
 let setDonePost = (e) => {
   const id = e.parentElement.parentElement.id;
   const checked = e.parentElement.previousElementSibling.classList.contains('task-title--done');
-  console.log(checked);
-  getChangeData(id, {title, isCompleted:!checked})
+  getChangeData(id, {isCompleted:!checked})
   
 };
 
