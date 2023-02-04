@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>ToDoList</title>
+</head>
+<body>
+    <h1>Just Do It</h1>
+    <div class="container">
+        <div class="text-input">
+            <form id="form">
+                <textarea name="post" id="input" placeholder="Add a Todo" cols="60" rows="1"></textarea>
+                <button class="btn" type="submit"><img src="img/add.png" alt="add"></button>
+            </form>
+            <div id="msg"></div>
+        </div>
+    </div>
+    <div class="text-output">
+        <ul id="posts">
+            <!-- <li class="action">
+                <p>Hello World post 1</p>
+                <span class="options">
+                    <img onClick="donePost(this)" src="img/check.png" alt="done">
+                    <img onClick="deletePost(this)" src="img/x.png" alt="delete">
+                </span>
+            </li>
+            <li class="action">
+                <p>Hello World post 2</p>
+                <span class="options">
+                    <img src="img/check.png" alt="done">
+                    <img src="img/x.png" alt="delete">
+                </span>
+            </li> -->
+        </ul>
+    </div>
+<script src="main.js"></script>    
+</body>
+</html>

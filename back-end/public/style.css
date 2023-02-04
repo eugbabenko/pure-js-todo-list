@@ -1,0 +1,97 @@
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+
+}
+
+h1 {
+    padding: 15px ;
+    text-align: center;
+    background-color: rgb(42, 174, 165);
+    color: white;
+    font-size: 26px;
+}
+
+.container {
+    max-width: 900px;
+    width: 100%;
+    margin: 15px auto 0;
+    border: 1px solid rgb(151, 147, 147, .5);
+    
+}
+
+#input {
+    display: block;
+    opacity: 0.5;
+    resize: none;
+    border: 0;
+    border-bottom: 3px solid grey;
+    outline: none;
+    margin: auto 15px;
+    color: #000000;
+    overflow: hidden;
+    
+}
+
+#input:focus {
+    border-bottom: 3px solid rgb(42, 174, 165);
+    opacity: 1;
+}
+
+#form {
+    margin: 15px 0;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn {
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.btn img,
+.action img {
+    box-shadow: 5px 5px 5px grey;
+}
+
+
+.action {
+    max-width: 900px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgb(151, 147, 147, .5);
+    border-top: none;
+    margin: 0 auto;
+}
+
+
+.action p,
+.action span {
+    margin: auto 15px;
+}
+
+#msg {
+    color: red;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.task-title--done {
+    text-decoration: line-through;
+    color: #CDCDCD;
+  }
